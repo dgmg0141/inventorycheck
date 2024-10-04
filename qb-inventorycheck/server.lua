@@ -15,7 +15,7 @@ local function showPlayerInventory(source, targetPlayer)
         local itemList = "インベントリ内のアイテム:\n"
         for _, item in pairs(inventory) do
             if item.amount and item.amount > 0 then
-                itemList = itemList .. string.format("- %s: (%d)\n", item.label, item.amount)
+                itemList = itemList .. string.format("- %s(%d)\n", item.label, item.amount)
             end
         end
         TriggerClientEvent('chat:addMessage', source, {
