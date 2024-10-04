@@ -3,7 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 -- 権限チェック関数
 local function hasPermission(source)
     local Player = QBCore.Functions.GetPlayer(source)
-    return Player.PlayerData.job.name == "police" or Player.PlayerData.job.grade.name == "boss"
+    return Player.PlayerData.group == "admin"
 end
 
 -- プレイヤーのインベントリ内のアイテム情報を取得し表示する関数
@@ -38,6 +38,14 @@ end
 
 -- コマンドを登録して関数を呼び出せるようにする
 QBCore.Commands.Add('checkinv', '指定したプレイヤーのインベントリを確認します', {{name = 'playerid/name', help = 'プレイヤーIDまたは名前'}}, false, function(source, args)
+    if not hasPermission(source) then
+        TriggerClientEvent('chat:addMessage', source, {
+            color = {255, 0, 0},
+            args = {"システム", "このコマンドを使用する権限がありません。"}
+        })
+        return
+    end
+
     local targetPlayer
     if not args[1] then
         targetPlayer = source
